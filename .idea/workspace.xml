@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c47d3cb-9838-4be6-8fa2-0e8d4e1df096" name="Changes" comment="Finished all companies, implemented no-jobs warning.">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+    <list default="true" id="9c47d3cb-9838-4be6-8fa2-0e8d4e1df096" name="Changes" comment="Implemented automatically writing joblists to textfiles, added missing descriptions.">
+      <change afterPath="$PROJECT_DIR$/joblists/2023-9-13_11_23_19_jobs.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/joblists/2023-9-13_12_37_29_jobs.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobsdata.ser" beforeDir="false" afterPath="$PROJECT_DIR$/jobsdata.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Scraper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Scraper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +103,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Finished all companies, implemented no-jobs warning." />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished all companies, implemented no-jobs warning." />
+    <MESSAGE value="Implemented automatically writing joblists to textfiles, added missing descriptions." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented automatically writing joblists to textfiles, added missing descriptions." />
   </component>
 </project>

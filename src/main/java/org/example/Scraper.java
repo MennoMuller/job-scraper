@@ -7,17 +7,20 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Scraper {
 
-    private WebDriver driver;
-    private ArrayList<JobListing> jobListings = new ArrayList<>();
+    private final WebDriver driver;
+    private final ArrayList<JobListing> jobListings = new ArrayList<>();
 
     public Scraper() {
         WebDriverManager.firefoxdriver().setup();
         driver = new FirefoxDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         driver.navigate().to("https://animo.id/jobs");
     }
 
@@ -26,12 +29,13 @@ public class Scraper {
         Thread.sleep(1000);
 
         // lists of WebElements that store all the job postings
-        List<WebElement> raw_job_titles = driver.findElements(By.cssSelector("h1.text-base"));
+        List<WebElement> raw_job_titles = driver.findElements(By.cssSelector("h1.font-bold.text-base"));
         List<WebElement> raw_job_descs = driver.findElements(By.cssSelector("p.line-clamp-3"));
         List<WebElement> raw_job_links = driver.findElements(By.cssSelector("div[href].grow"));
 
-        if(raw_job_titles.size()==0){
+        if (raw_job_titles.size() == 0) {
             System.out.println("NO jobs at Animo, check for site changes.");
+            return;
         }
 
         // loop through raw_jobs and add them to the big job list
@@ -49,8 +53,9 @@ public class Scraper {
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("elementskit-post-card"));
 
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Bloxs, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -68,8 +73,9 @@ public class Scraper {
         Thread.sleep(1000);
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("product-card--job"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Cadac, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -100,8 +106,9 @@ public class Scraper {
             Thread.sleep(1000);
             // list of WebElements that store all the job postings
             List<WebElement> raw_jobs = driver.findElements(By.className("vacancy-list-item__link"));
-            if(raw_jobs.size()==0){
+            if (raw_jobs.size() == 0) {
                 System.out.println("NO jobs at Exact, check for site changes.");
+                return;
             }
             // loop through raw_jobs and add them to the big job list
             for (WebElement e : raw_jobs) {
@@ -120,21 +127,24 @@ public class Scraper {
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("sqs-block-button-container--center"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Faqta, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
+        WebDriver driver2 = new FirefoxDriver();
+        driver2.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         for (WebElement e : raw_jobs) {
             String jobTitle = e.findElement(By.className("sqs-block-button-element")).getText();
             if (jobTitle.equals("Open sollicitatie")) {
                 continue;
             }
-            String jobLink = "https://werkenbijfaqta.nl" + e.findElement(By.tagName("a")).getAttribute("href");
-//            driver.navigate().to(jobLink);
-            String description = "(no description available)";
-
+            String jobLink = e.findElement(By.tagName("a")).getAttribute("href");
+            driver2.navigate().to(jobLink);
+            String description = driver2.findElements(By.cssSelector("div.index-section-wrapper p")).get(1).getText();
             jobListings.add(new JobListing("Faqta", jobTitle, description, jobLink));
         }
+        driver2.close();
     }
 
     public void checkHydroLogic() {
@@ -142,18 +152,21 @@ public class Scraper {
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElement(By.className("tiles-nomix")).findElements(By.tagName("li"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at HydroLogic, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
+        WebDriver driver2 = new FirefoxDriver();
+        driver2.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         for (WebElement e : raw_jobs) {
             String jobTitle = e.findElement(By.tagName("h2")).getText();
             String jobLink = e.findElement(By.tagName("a")).getAttribute("href");
-//            driver.navigate().to(jobLink);
-            String description = "(no description available)";
-
+            driver2.navigate().to(jobLink);
+            String description = driver2.findElement(By.tagName("em")).getText();
             jobListings.add(new JobListing("HydroLogic", jobTitle, description, jobLink));
         }
+        driver2.close();
     }
 
     public void checkIncentro() throws InterruptedException {
@@ -161,8 +174,9 @@ public class Scraper {
         Thread.sleep(1000);
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.cssSelector("ul.light li"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Incentro, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -181,8 +195,9 @@ public class Scraper {
         Thread.sleep(1000);
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("css-ldt7kr"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Intragen, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -201,8 +216,9 @@ public class Scraper {
         Thread.sleep(2000);
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("vacancy"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at JIO, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -221,16 +237,21 @@ public class Scraper {
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("bkwa-item"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Keylane, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
+        WebDriver driver2 = new FirefoxDriver();
+        driver2.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         for (WebElement e : raw_jobs) {
             String jobTitle = e.findElement(By.className("bkwa-item-title")).getText();
-            String description = "(no description available)";
             String jobLink = e.findElement(By.tagName("a")).getAttribute("href");
+            driver2.navigate().to(jobLink);
+            String description = driver2.findElements(By.cssSelector("div#left-column p")).get(1).getText();
             jobListings.add(new JobListing("Keylane", jobTitle, description, jobLink));
         }
+        driver2.close();
     }
 
     public void checkMoogue() {
@@ -238,8 +259,9 @@ public class Scraper {
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("single_vacature"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Moogue, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -255,8 +277,9 @@ public class Scraper {
         Thread.sleep(1000);
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("t422__container"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Pridis, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -272,8 +295,9 @@ public class Scraper {
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElement(By.className("fusion-builder-column-1")).findElements(By.className("post-content"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Quintor, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -292,8 +316,9 @@ public class Scraper {
 
         // list of WebElements that store all the job postings for Development
         List<WebElement> raw_jobs = driver.findElements(By.className("stretch")).get(dev_dept).findElements(By.className("vacancy-card"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at SensorFact, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -309,8 +334,9 @@ public class Scraper {
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("jobs__post"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Social Brothers, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -326,8 +352,9 @@ public class Scraper {
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("uagb-post__inner-wrap"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Taxonic, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -343,16 +370,21 @@ public class Scraper {
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.cssSelector("li a[rel]"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at The Hyve, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
+        WebDriver driver2 = new FirefoxDriver();
+        driver2.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         for (WebElement e : raw_jobs) {
             String jobTitle = e.getText();
-            String description = "(no description available)";
             String jobLink = e.getAttribute("href");
+            driver2.navigate().to(jobLink);
+            String description = driver2.findElements(By.tagName("p")).get(0).getText();
             jobListings.add(new JobListing("The Hyve", jobTitle, description, jobLink));
         }
+        driver2.close();
     }
 
     public void checkValk() {
@@ -360,8 +392,9 @@ public class Scraper {
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("eael-entry-wrapper"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Valk Solutions, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -377,15 +410,16 @@ public class Scraper {
         Thread.sleep(1000);
         // filter for software development
         driver.findElement(By.id("AandachtsgebiedAccordion")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.cssSelector("input[name=\"department_phs_2212\"] + span.checkbox")).click();
+        Thread.sleep(2000);
+        driver.findElement(By.cssSelector("input[data-ph-at-text=\"Software development \"] + span.checkbox")).click();
         Thread.sleep(1000);
         //TODO: implement support for multiple pages
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("jobs-list-item"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at Volksbank, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -403,8 +437,9 @@ public class Scraper {
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.cssSelector("a.group"));
-        if(raw_jobs.size()==0){
+        if (raw_jobs.size() == 0) {
             System.out.println("NO jobs at WeCity, check for site changes.");
+            return;
         }
         // loop through raw_jobs and add them to the big job list
         for (WebElement e : raw_jobs) {
@@ -447,13 +482,31 @@ public class Scraper {
                     newJobs.add(job);
                 }
             }
+            if (newJobs.size() > 0) {
+                LocalDateTime now = LocalDateTime.now();
+                File jobFile = new File("joblists\\" + now.getYear() + "-" + now.getMonthValue() + "-" + now.getDayOfMonth() + "_" + now.getHour() + "_" + now.getMinute() + "_" + now.getSecond() + "_jobs.txt");
+                if (jobFile.createNewFile()) {
+                    System.out.println("File created: " + jobFile.getName());
+                } else {
+                    System.out.println("File already exists.");
+                }
+                FileWriter jobWriter = new FileWriter(jobFile);
 
-            System.out.println(newJobs.size() + " new job " + (newJobs.size() == 1 ? "listing found." : "listings found."));
-            for (JobListing job : newJobs) {
-                System.out.println(job.companyName());
-                System.out.println(job.jobTitle());
-                System.out.println(job.description());
-                System.out.println(job.link());
+                System.out.println(newJobs.size() + " new job " + (newJobs.size() == 1 ? "listing found." : "listings found."));
+                jobWriter.write(newJobs.size() + " new job " + (newJobs.size() == 1 ? "listing found.\n\n" : "listings found.\n\n"));
+                for (JobListing job : newJobs) {
+                    System.out.println(job.companyName());
+                    jobWriter.write(job.companyName() + "\n");
+                    System.out.println(job.jobTitle());
+                    jobWriter.write(job.jobTitle() + "\n");
+                    System.out.println(job.description());
+                    jobWriter.write(job.description() + "\n");
+                    System.out.println(job.link());
+                    jobWriter.write(job.link() + "\n\n");
+                }
+                jobWriter.close();
+            } else {
+                System.out.println("0 new job listings found.");
             }
 
         } catch (Exception e) {
