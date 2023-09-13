@@ -6,7 +6,7 @@ public class Main {
         scraper.checkCompanies();
         scraper.closeDriver();
         scraper.checkNewListings();
-//        scraper.deleteFirstListing();
+//        scraper.deleteAllListings();
         scraper.writeToFile();
     }
 }

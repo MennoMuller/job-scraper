@@ -21,30 +21,34 @@ public class Scraper {
         WebDriverManager.firefoxdriver().setup();
         driver = new FirefoxDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        driver.manage().window().maximize();
         driver.navigate().to("https://animo.id/jobs");
     }
 
     public void checkAnimo() throws InterruptedException {
         driver.navigate().to("https://animo.id/jobs");
-        Thread.sleep(1000);
 
         // lists of WebElements that store all the job postings
-        List<WebElement> raw_job_titles = driver.findElements(By.cssSelector("h1.font-bold.text-base"));
         List<WebElement> raw_job_descs = driver.findElements(By.cssSelector("p.line-clamp-3"));
         List<WebElement> raw_job_links = driver.findElements(By.cssSelector("div[href].grow"));
 
-        if (raw_job_titles.size() == 0) {
+        if (raw_job_links.size() == 0) {
             System.out.println("NO jobs at Animo, check for site changes.");
             return;
         }
-
+        WebDriver driver2 = new FirefoxDriver();
+        driver2.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         // loop through raw_jobs and add them to the big job list
-        for (int i = 0; i < raw_job_titles.size(); i++) {
-            String jobTitle = raw_job_titles.get(i).getText();
+        for (int i = 0; i < raw_job_links.size(); i++) {
             String description = raw_job_descs.get(i).getText();
             String jobLink = "https://animo.id" + raw_job_links.get(i).getAttribute("href");
+            driver2.navigate().to(jobLink);
+            //noinspection BusyWait
+            Thread.sleep(1000);
+            String jobTitle = driver2.findElement(By.tagName("h1")).getText();
             jobListings.add(new JobListing("Animo Solutions", jobTitle, description, jobLink));
         }
+        driver2.close();
     }
 
     public void checkBloxs() {
@@ -91,19 +95,14 @@ public class Scraper {
     public void checkExact() {
         try {
             driver.navigate().to("https://www.exact.com/careers/vacancies#overview");
-            Thread.sleep(2000);
             // click the accept cookies button
             driver.findElement(By.id("stormdigital-action-accept-all")).click();
-            Thread.sleep(1000);
             // filter for the Netherlands
             driver.findElement(By.id("attribute_5_49")).click();
-            Thread.sleep(1000);
             // filter for Technology
             driver.findElement(By.id("attribute_4_4")).click();
-            Thread.sleep(1000);
             // filter for Utrecht
             driver.findElement(By.id("attribute_3_786")).click();
-            Thread.sleep(1000);
             // list of WebElements that store all the job postings
             List<WebElement> raw_jobs = driver.findElements(By.className("vacancy-list-item__link"));
             if (raw_jobs.size() == 0) {
@@ -124,7 +123,6 @@ public class Scraper {
 
     public void checkFaqta() {
         driver.navigate().to("https://werkenbijfaqta.nl/");
-
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("sqs-block-button-container--center"));
         if (raw_jobs.size() == 0) {
@@ -149,7 +147,6 @@ public class Scraper {
 
     public void checkHydroLogic() {
         driver.navigate().to("https://www.hydrologic.nl/werken-bij-hydrologic/vacatures-ict/");
-
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElement(By.className("tiles-nomix")).findElements(By.tagName("li"));
         if (raw_jobs.size() == 0) {
@@ -172,6 +169,7 @@ public class Scraper {
     public void checkIncentro() throws InterruptedException {
         driver.navigate().to("https://careers.incentro.com/nl-NL/vacatures?locale=Utrecht");
         Thread.sleep(1000);
+        driver.findElement(By.className("ch2-allow-all-btn")).click();
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.cssSelector("ul.light li"));
         if (raw_jobs.size() == 0) {
@@ -190,9 +188,8 @@ public class Scraper {
         }
     }
 
-    public void checkIntragen() throws InterruptedException {
+    public void checkIntragen() {
         driver.navigate().to("https://intragen.bamboohr.com/careers");
-        Thread.sleep(1000);
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("css-ldt7kr"));
         if (raw_jobs.size() == 0) {
@@ -211,9 +208,8 @@ public class Scraper {
         }
     }
 
-    public void checkJio() throws InterruptedException {
+    public void checkJio() {
         driver.navigate().to("https://www.werkenvoornederland.nl/vacatures?term=Justiti%C3%ABle%20ICT%20Organisatie&vakgebied=CVG.08&type=vacature&werkgever=01480&postcode=3533HJ&afstand=20km");
-        Thread.sleep(2000);
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("vacancy"));
         if (raw_jobs.size() == 0) {
@@ -407,10 +403,8 @@ public class Scraper {
 
     public void checkVolksbank() throws InterruptedException {
         driver.navigate().to("https://werkenbij.devolksbank.nl/nl/nl/search-results");
-        Thread.sleep(1000);
         // filter for software development
         driver.findElement(By.id("AandachtsgebiedAccordion")).click();
-        Thread.sleep(2000);
         driver.findElement(By.cssSelector("input[data-ph-at-text=\"Software development \"] + span.checkbox")).click();
         Thread.sleep(1000);
         //TODO: implement support for multiple pages
@@ -453,7 +447,7 @@ public class Scraper {
     public void writeToFile() {
         //write to file
         try {
-            FileOutputStream writeData = new FileOutputStream("jobsdata.ser");
+            FileOutputStream writeData = new FileOutputStream("jobs-data.ser");
             ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
 
             writeStream.writeObject(jobListings);
@@ -471,10 +465,10 @@ public class Scraper {
 
     public void checkNewListings() {
         try {
-            FileInputStream readData = new FileInputStream("jobsdata.ser");
+            FileInputStream readData = new FileInputStream("jobs-data.ser");
             ObjectInputStream readStream = new ObjectInputStream(readData);
 
-            ArrayList<JobListing> oldJobs = (ArrayList<JobListing>) readStream.readObject();
+            @SuppressWarnings("unchecked") ArrayList<JobListing> oldJobs = (ArrayList<JobListing>) readStream.readObject();
             readStream.close();
             ArrayList<JobListing> newJobs = new ArrayList<>();
             for (JobListing job : jobListings) {
@@ -484,7 +478,7 @@ public class Scraper {
             }
             if (newJobs.size() > 0) {
                 LocalDateTime now = LocalDateTime.now();
-                File jobFile = new File("joblists\\" + now.getYear() + "-" + now.getMonthValue() + "-" + now.getDayOfMonth() + "_" + now.getHour() + "_" + now.getMinute() + "_" + now.getSecond() + "_jobs.txt");
+                File jobFile = new File("job-lists\\" + now.getYear() + "-" + now.getMonthValue() + "-" + now.getDayOfMonth() + "_" + now.getHour() + "_" + now.getMinute() + "_" + now.getSecond() + "_jobs.txt");
                 if (jobFile.createNewFile()) {
                     System.out.println("File created: " + jobFile.getName());
                 } else {
@@ -514,7 +508,8 @@ public class Scraper {
         }
     }
 
-    public void deleteFirstListing() {
+    @SuppressWarnings("unused")
+    public void deleteAllListings() {
         jobListings.clear();
     }
 
