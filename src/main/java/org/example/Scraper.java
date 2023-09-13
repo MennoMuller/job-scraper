@@ -17,6 +17,8 @@ public class Scraper {
     private final WebDriver driver;
     private final ArrayList<JobListing> jobListings = new ArrayList<>();
 
+    private final String[] filterWords = {"consultant", "manager", "administratief", "analist", "beheerder", "support", "service", "people"};
+
     public Scraper() {
         WebDriverManager.firefoxdriver().setup();
         driver = new FirefoxDriver();
@@ -463,6 +465,20 @@ public class Scraper {
         driver.close();
     }
 
+    public void filterListings() {
+        ArrayList<JobListing> jobListy = new ArrayList<>(jobListings);
+        for (JobListing job : jobListy) {
+            for (String word : filterWords) {
+                if (job.jobTitle().toLowerCase().contains(word)) {
+                    System.out.println("Removed job " + job.jobTitle() + " at " + job.companyName() + ": contains " + word);
+                    jobListings.remove(job);
+                    break;
+                }
+            }
+        }
+
+    }
+
     public void checkNewListings() {
         try {
             FileInputStream readData = new FileInputStream("jobs-data.ser");
@@ -534,6 +550,8 @@ public class Scraper {
         checkValk();
         checkVolksbank();
         checkWeCity();
+
+        filterListings();
     }
 
 
