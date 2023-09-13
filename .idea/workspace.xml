@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c47d3cb-9838-4be6-8fa2-0e8d4e1df096" name="Changes" comment="Improved speed and reliability, cleared warnings and typos">
+    <list default="true" id="9c47d3cb-9838-4be6-8fa2-0e8d4e1df096" name="Changes" comment="Implemented blacklist filter words to remove most of the irrelevant jobs.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jobs-data.ser" beforeDir="false" afterPath="$PROJECT_DIR$/jobs-data.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Scraper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Scraper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +49,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "last_directory_selection": "C:/Users/menno/Documents/GitHub/job-scraper/src/test/java",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "run.code.analysis.last.selected.profile": "pProject Default"
   }
 }]]></component>
@@ -104,7 +105,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694607190934</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Implemented blacklist filter words to remove most of the irrelevant jobs.">
+      <created>1694610190176</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1694610190176</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -122,6 +130,7 @@
     <MESSAGE value="Finished all companies, implemented no-jobs warning." />
     <MESSAGE value="Implemented automatically writing joblists to textfiles, added missing descriptions." />
     <MESSAGE value="Improved speed and reliability, cleared warnings and typos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improved speed and reliability, cleared warnings and typos" />
+    <MESSAGE value="Implemented blacklist filter words to remove most of the irrelevant jobs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented blacklist filter words to remove most of the irrelevant jobs." />
   </component>
 </project>
