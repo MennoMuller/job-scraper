@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="job-scraper:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c47d3cb-9838-4be6-8fa2-0e8d4e1df096" name="Changes" comment="Implemented blacklist filter words to remove most of the irrelevant jobs.">
+    <list default="true" id="9c47d3cb-9838-4be6-8fa2-0e8d4e1df096" name="Changes" comment="Packaged application to JAR">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jobs-data.ser" beforeDir="false" afterPath="$PROJECT_DIR$/jobs-data.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/job_scraper_jar/job-scraper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/job_scraper_jar/job-scraper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Scraper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Scraper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,10 +57,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "last_directory_selection": "C:/Users/menno/Documents/GitHub/job-scraper/src/test/java",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "run.code.analysis.last.selected.profile": "pProject Default"
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RunManager">
@@ -112,7 +121,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694610190176</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Packaged application to JAR">
+      <created>1694611108760</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1694611108760</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -131,6 +147,7 @@
     <MESSAGE value="Implemented automatically writing joblists to textfiles, added missing descriptions." />
     <MESSAGE value="Improved speed and reliability, cleared warnings and typos" />
     <MESSAGE value="Implemented blacklist filter words to remove most of the irrelevant jobs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented blacklist filter words to remove most of the irrelevant jobs." />
+    <MESSAGE value="Packaged application to JAR" />
+    <option name="LAST_COMMIT_MESSAGE" value="Packaged application to JAR" />
   </component>
 </project>

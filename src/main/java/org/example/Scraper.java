@@ -211,7 +211,7 @@ public class Scraper {
     }
 
     public void checkJio() {
-        driver.navigate().to("https://www.werkenvoornederland.nl/vacatures?term=Justiti%C3%ABle%20ICT%20Organisatie&vakgebied=CVG.08&type=vacature&werkgever=01480&postcode=3533HJ&afstand=20km");
+        driver.navigate().to("https://www.werkenvoornederland.nl/vacatures?term=Justiti%C3%ABle%20ICT%20Organisatie&vakgebied=CVG.08&type=vacature&werkgever=01480&postcode=3511CE&afstand=20km");
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("vacancy"));
         if (raw_jobs.size() == 0) {
@@ -546,7 +546,7 @@ public class Scraper {
         checkSensorFact();
         checkSocialBrothers();
         checkTaxonic();
-        checkTheHyve();
+        //checkTheHyve();
         checkValk();
         checkVolksbank();
         checkWeCity();
