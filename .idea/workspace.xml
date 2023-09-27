@@ -9,10 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c47d3cb-9838-4be6-8fa2-0e8d4e1df096" name="Changes" comment="Packaged application to JAR">
+    <list default="true" id="9c47d3cb-9838-4be6-8fa2-0e8d4e1df096" name="Changes" comment="Resolved privacy concern, attempt to make a functional JAR.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jobs-data.ser" beforeDir="false" afterPath="$PROJECT_DIR$/jobs-data.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/job_scraper_jar/job-scraper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/job_scraper_jar/job-scraper.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Scraper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Scraper.java" afterDir="false" />
     </list>
@@ -36,6 +35,11 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
     <option name="importingSettings">
       <MavenImportingSettings>
         <option name="workspaceImportEnabled" value="true" />
@@ -128,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1694611108760</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Resolved privacy concern, attempt to make a functional JAR.">
+      <created>1695200076458</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1695200076458</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -148,6 +159,7 @@
     <MESSAGE value="Improved speed and reliability, cleared warnings and typos" />
     <MESSAGE value="Implemented blacklist filter words to remove most of the irrelevant jobs." />
     <MESSAGE value="Packaged application to JAR" />
-    <option name="LAST_COMMIT_MESSAGE" value="Packaged application to JAR" />
+    <MESSAGE value="Resolved privacy concern, attempt to make a functional JAR." />
+    <option name="LAST_COMMIT_MESSAGE" value="Resolved privacy concern, attempt to make a functional JAR." />
   </component>
 </project>

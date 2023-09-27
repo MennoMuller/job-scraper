@@ -5,25 +5,32 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.io.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Scraper {
 
+    private final FirefoxOptions options = new FirefoxOptions();
     private final WebDriver driver;
     private final ArrayList<JobListing> jobListings = new ArrayList<>();
 
-    private final String[] filterWords = {"consultant", "manager", "administratief", "analist", "beheerder", "support", "service", "people"};
+    private final String[] filterWords = {"consultant", "manager", "administratief", "analist", "beheerder", "support", "service", "people", "trainer", "dtp'er", "redactie", "medewerker"};
 
     public Scraper() {
         WebDriverManager.firefoxdriver().setup();
-        driver = new FirefoxDriver();
+
+        //set to headless
+        options.addArguments("--headless");
+
+        driver = new FirefoxDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        driver.manage().window().maximize();
+//        driver.manage().window().maximize();
         driver.navigate().to("https://animo.id/jobs");
     }
 
@@ -38,7 +45,7 @@ public class Scraper {
             System.out.println("NO jobs at Animo, check for site changes.");
             return;
         }
-        WebDriver driver2 = new FirefoxDriver();
+        WebDriver driver2 = new FirefoxDriver(options);
         driver2.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         // loop through raw_jobs and add them to the big job list
         for (int i = 0; i < raw_job_links.size(); i++) {
@@ -132,7 +139,7 @@ public class Scraper {
             return;
         }
         // loop through raw_jobs and add them to the big job list
-        WebDriver driver2 = new FirefoxDriver();
+        WebDriver driver2 = new FirefoxDriver(options);
         driver2.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         for (WebElement e : raw_jobs) {
             String jobTitle = e.findElement(By.className("sqs-block-button-element")).getText();
@@ -156,7 +163,7 @@ public class Scraper {
             return;
         }
         // loop through raw_jobs and add them to the big job list
-        WebDriver driver2 = new FirefoxDriver();
+        WebDriver driver2 = new FirefoxDriver(options);
         driver2.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         for (WebElement e : raw_jobs) {
             String jobTitle = e.findElement(By.tagName("h2")).getText();
@@ -240,7 +247,7 @@ public class Scraper {
             return;
         }
         // loop through raw_jobs and add them to the big job list
-        WebDriver driver2 = new FirefoxDriver();
+        WebDriver driver2 = new FirefoxDriver(options);
         driver2.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         for (WebElement e : raw_jobs) {
             String jobTitle = e.findElement(By.className("bkwa-item-title")).getText();
@@ -373,7 +380,7 @@ public class Scraper {
             return;
         }
         // loop through raw_jobs and add them to the big job list
-        WebDriver driver2 = new FirefoxDriver();
+        WebDriver driver2 = new FirefoxDriver(options);
         driver2.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         for (WebElement e : raw_jobs) {
             String jobTitle = e.getText();
@@ -409,7 +416,7 @@ public class Scraper {
         driver.findElement(By.id("AandachtsgebiedAccordion")).click();
         driver.findElement(By.cssSelector("input[data-ph-at-text=\"Software development \"] + span.checkbox")).click();
         Thread.sleep(1000);
-        //TODO: implement support for multiple pages
+
 
         // list of WebElements that store all the job postings
         List<WebElement> raw_jobs = driver.findElements(By.className("jobs-list-item"));
@@ -470,7 +477,7 @@ public class Scraper {
         for (JobListing job : jobListy) {
             for (String word : filterWords) {
                 if (job.jobTitle().toLowerCase().contains(word)) {
-                    System.out.println("Removed job " + job.jobTitle() + " at " + job.companyName() + ": contains " + word);
+                    //System.out.println("Removed job " + job.jobTitle() + " at " + job.companyName() + ": contains " + word);
                     jobListings.remove(job);
                     break;
                 }
@@ -530,6 +537,8 @@ public class Scraper {
     }
 
     public void checkCompanies() throws InterruptedException {
+        System.out.println("Searching for jobs...");
+        LocalTime start = LocalTime.now();
         checkAnimo();
         checkBloxs();
         checkCadac();
@@ -552,6 +561,8 @@ public class Scraper {
         checkWeCity();
 
         filterListings();
+        Duration timer = Duration.between(start, LocalTime.now());
+        System.out.println("Search finished in " + timer.toString());
     }
 
 
