@@ -25,7 +25,7 @@ public class Scraper {
     public Scraper() {
         WebDriverManager.firefoxdriver().setup();
 
-        //set to headless
+        //set to headless so the browser window isn't visible
         options.addArguments("--headless");
 
         driver = new FirefoxDriver(options);
@@ -562,7 +562,7 @@ public class Scraper {
 
         filterListings();
         Duration timer = Duration.between(start, LocalTime.now());
-        System.out.println("Search finished in " + timer.toString());
+        System.out.println("Search finished in " + timer.toMinutes() + ":" + timer.getSeconds() % 60 + "." + timer.getNano());
     }
 
 

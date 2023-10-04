@@ -9,10 +9,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9c47d3cb-9838-4be6-8fa2-0e8d4e1df096" name="Changes" comment="Resolved privacy concern, attempt to make a functional JAR.">
+    <list default="true" id="9c47d3cb-9838-4be6-8fa2-0e8d4e1df096" name="Changes" comment="Implemented Headless mode">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jobs-data.ser" beforeDir="false" afterPath="$PROJECT_DIR$/jobs-data.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Scraper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Scraper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -139,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1695200076458</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Implemented Headless mode">
+      <created>1695807733258</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1695807733258</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -160,6 +166,7 @@
     <MESSAGE value="Implemented blacklist filter words to remove most of the irrelevant jobs." />
     <MESSAGE value="Packaged application to JAR" />
     <MESSAGE value="Resolved privacy concern, attempt to make a functional JAR." />
-    <option name="LAST_COMMIT_MESSAGE" value="Resolved privacy concern, attempt to make a functional JAR." />
+    <MESSAGE value="Implemented Headless mode" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented Headless mode" />
   </component>
 </project>
