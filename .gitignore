@@ -38,7 +38,8 @@ build/
 .DS_Store
 
 ### My own stuff ###
-jobs-data.ser
-job-lists
+jobs-data.json
+job-lists/*
+!job-lists/readme.txt
 .idea
 out

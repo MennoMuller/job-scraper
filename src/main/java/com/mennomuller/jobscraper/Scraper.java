@@ -529,11 +529,6 @@ public class Scraper {
         }
     }
 
-    @SuppressWarnings("unused")
-    public void deleteAllListings() {
-        jobListings.clear();
-    }
-
     public void checkCompanies() throws InterruptedException {
         System.out.println("Searching for jobs...");
         LocalTime start = LocalTime.now();

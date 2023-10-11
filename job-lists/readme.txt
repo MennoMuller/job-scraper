@@ -1,0 +1,1 @@
+This folder is where the results of the search get stored as text files.
