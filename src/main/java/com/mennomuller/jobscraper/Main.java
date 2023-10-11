@@ -1,4 +1,4 @@
-package org.example;
+package com.mennomuller.jobscraper;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -6,7 +6,6 @@ public class Main {
         scraper.checkCompanies();
         scraper.closeDriver();
         scraper.checkNewListings();
-//        scraper.deleteAllListings();
         scraper.writeToFile();
     }
 }

@@ -1,4 +1,4 @@
-package org.example;
+package com.mennomuller.jobscraper;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
@@ -30,7 +30,6 @@ public class Scraper {
 
         driver = new FirefoxDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-//        driver.manage().window().maximize();
         driver.navigate().to("https://animo.id/jobs");
     }
 
@@ -460,7 +459,6 @@ public class Scraper {
             ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
 
             writeStream.writeObject(jobListings);
-            writeStream.flush();
             writeStream.close();
 
         } catch (IOException e) {
@@ -562,7 +560,7 @@ public class Scraper {
 
         filterListings();
         Duration timer = Duration.between(start, LocalTime.now());
-        System.out.println("Search finished in " + timer.toMinutes() + ":" + timer.getSeconds() % 60 + "." + timer.getNano());
+        System.out.println("Search finished in " + timer.toMinutes() + ":" + timer.toSecondsPart());
     }
 
 

@@ -1,4 +1,4 @@
-package org.example;
+package com.mennomuller.jobscraper;
 
 import java.io.Serializable;
 
