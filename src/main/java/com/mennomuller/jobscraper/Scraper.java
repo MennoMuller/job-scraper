@@ -1,5 +1,7 @@
 package com.mennomuller.jobscraper;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -7,18 +9,20 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Scraper {
 
     private final FirefoxOptions options = new FirefoxOptions();
     private final WebDriver driver;
-    private final ArrayList<JobListing> jobListings = new ArrayList<>();
+    private ArrayList<JobListing> jobListings = new ArrayList<>();
 
     private final String[] filterWords = {"consultant", "manager", "administratief", "analist", "beheerder", "support", "service", "people", "trainer", "dtp'er", "redactie", "medewerker"};
 
@@ -369,6 +373,7 @@ public class Scraper {
         }
     }
 
+    @SuppressWarnings("unused")
     public void checkTheHyve() {
         driver.navigate().to("https://www.thehyve.nl/jobs");
 
@@ -453,50 +458,43 @@ public class Scraper {
     }
 
     public void writeToFile() {
-        //write to file
+        //write to json file
+        ObjectMapper objectMapper = new ObjectMapper();
+        File jobsFile = new File("jobs-data.json");
         try {
-            FileOutputStream writeData = new FileOutputStream("jobs-data.ser");
-            ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
-
-            writeStream.writeObject(jobListings);
-            writeStream.close();
-
-        } catch (IOException e) {
+            objectMapper.writeValue(jobsFile,jobListings);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+
     }
 
     public void closeDriver() {
         driver.close();
     }
 
-    public void filterListings() {
-        ArrayList<JobListing> jobListy = new ArrayList<>(jobListings);
-        for (JobListing job : jobListy) {
-            for (String word : filterWords) {
-                if (job.jobTitle().toLowerCase().contains(word)) {
-                    //System.out.println("Removed job " + job.jobTitle() + " at " + job.companyName() + ": contains " + word);
-                    jobListings.remove(job);
-                    break;
-                }
-            }
-        }
-
+    public List<JobListing> removeIrrelevantJobs(List<JobListing> allJobs) {
+        return allJobs.stream()
+                .filter(job -> Arrays.stream(filterWords)
+                        .noneMatch(word -> job.jobTitle().toLowerCase().contains(word)))
+                .toList();
     }
 
     public void checkNewListings() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        File jobsFile = new File("jobs-data.json");
         try {
-            FileInputStream readData = new FileInputStream("jobs-data.ser");
-            ObjectInputStream readStream = new ObjectInputStream(readData);
+            //get previous list of jobs from JSON file
+            List<JobListing> oldJobs = objectMapper.readValue(jobsFile, new TypeReference<>(){});
+            //filter out the ones that have previously appeared
+            List<JobListing> newJobs = jobListings.stream()
+                    .filter(job -> oldJobs.stream()
+                            .noneMatch(job::equals))
+                    .toList();
 
-            @SuppressWarnings("unchecked") ArrayList<JobListing> oldJobs = (ArrayList<JobListing>) readStream.readObject();
-            readStream.close();
-            ArrayList<JobListing> newJobs = new ArrayList<>();
-            for (JobListing job : jobListings) {
-                if (!oldJobs.contains(job)) {
-                    newJobs.add(job);
-                }
-            }
+
+
             if (newJobs.size() > 0) {
                 LocalDateTime now = LocalDateTime.now();
                 File jobFile = new File("job-lists\\" + now.getYear() + "-" + now.getMonthValue() + "-" + now.getDayOfMonth() + "_" + now.getHour() + "_" + now.getMinute() + "_" + now.getSecond() + "_jobs.txt");
@@ -523,6 +521,8 @@ public class Scraper {
             } else {
                 System.out.println("0 new job listings found.");
             }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -558,10 +558,8 @@ public class Scraper {
         checkVolksbank();
         checkWeCity();
 
-        filterListings();
+        jobListings = new ArrayList<>(removeIrrelevantJobs(jobListings));
         Duration timer = Duration.between(start, LocalTime.now());
         System.out.println("Search finished in " + timer.toMinutes() + ":" + timer.toSecondsPart());
     }
-
-
 }
