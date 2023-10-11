@@ -41,3 +41,4 @@ build/
 jobs-data.ser
 job-lists
 .idea
+out
